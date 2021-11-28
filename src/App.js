@@ -1,9 +1,14 @@
 import React from "react";
-import Header from "./components/Header"
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
-
 import { useState, useEffect } from "react"
+//import { BrowserRouter as Router, Route} from 'react-router-dom'
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import Tasks from "./components/Tasks"
+import AddTask from "./components/AddTask"
+
+import About from "./components/About";
+
+
 const App = () => {
   const[showAddTask, setShowAddtask] = useState(false)
   const [tasks, setTasks] = useState([])
@@ -91,6 +96,7 @@ const toggleReminder =async (id) =>{
   )
 }
   return (
+    //<Router>
     <div className='container'>
       <Header onAdd={() => setShowAddtask(!showAddTask)} 
       showAdd={showAddTask}/>
@@ -99,7 +105,10 @@ const toggleReminder =async (id) =>{
       {deleteTask} onToggle={toggleReminder}/> : (
         'No tasks To Show'
         )}
+        {/* <Route path='/about' component={About} /> */}
+        <Footer />
     </div>
+    //</Router>
   )
 } 
 
