@@ -26,26 +26,67 @@ const App = () => {
     return data
   }
 
+  //Fetch Task
+  const fetchTask = async (id) => {
+    const res = await fetch(`http://localhost:5000/tasks/${id}`)
+    const data = await res.json()
+
+    //console.log(data)
+    return data
+  }
+
 // Add task
-const addTask = (task) => {
+const addTask = async (task) => {
   //console.log(task);
-  const id = Math.floor(Math.random() * 10000) +1 
-  //console.log(id)
-  const newTask = {id, ...task}
-  setTasks([...tasks, newTask])
+  // const id = Math.floor(Math.random() * 10000) +1 
+  // //console.log(id)
+  // const newTask = {id, ...task}
+  // setTasks([...tasks, newTask])
+
+  const res = await fetch('http://localhost:5000/tasks',{
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(task),
+  })
+
+  const data = await res.json()
+
+  setTasks([...tasks, data])
 }
 
 // Delete Task
-const deleteTask = (id) => {
+const deleteTask = async (id) => {
   //console.log('delete', id)
+
+  await fetch(`http://localhost:5000/tasks/${id}`,{
+    method: 'DELETE'
+  })
+
   setTasks(tasks.filter((task) => task.id !== id))
 }
 
 //Toggle Reminder
-const toggleReminder =(id) =>{
+const toggleReminder =async (id) =>{
   //console.log(id)
-  setTasks(tasks.map((task) => task.id ===id? {...task, reminder: 
-    !task.reminder} : task
+  const taskToToggle = await fetchTask(id)
+  const updTask = {...taskToToggle, reminder: !taskToToggle.reminder }
+
+  const res = await fetch(`http://localhost:5000/tasks/${id}`,{
+    method: 'PUT',
+    headers:{
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(updTask)
+  })
+
+  const data = await res.json()
+
+  setTasks(
+    tasks.map((task) => 
+    task.id ===id? {...task, reminder: 
+      data.reminder} : task
     )
   )
 }
