@@ -1,12 +1,16 @@
 import React from "react";
-import { useState, useEffect } from "react"
-//import { BrowserRouter as Router, Route} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+//import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Tasks from "./components/Tasks"
 import AddTask from "./components/AddTask"
 
 import About from "./components/About";
+//import { render } from "@testing-library/react";
+//import { Router, Routes } from "react-router";
+//import {  Switch } from "react-router";
 
 
 const App = () => {
@@ -96,7 +100,9 @@ const toggleReminder =async (id) =>{
   )
 }
   return (
-    //<Router>
+   
+    <BrowserRouter>
+      
     <div className='container'>
       <Header onAdd={() => setShowAddtask(!showAddTask)} 
       showAdd={showAddTask}/>
@@ -105,11 +111,18 @@ const toggleReminder =async (id) =>{
       {deleteTask} onToggle={toggleReminder}/> : (
         'No tasks To Show'
         )}
-        {/* <Route path='/about' component={About} /> */}
+        <Routes>
+          {/* <Route path='/about' component={withRouter(About)} /> */}
+          <Route  path="/about" element={<About/>}/>
+        </Routes>
+        
         <Footer />
     </div>
-    //</Router>
+    
+    </BrowserRouter>
+    
   )
+     
 } 
 
 // class App extends React.Component{
